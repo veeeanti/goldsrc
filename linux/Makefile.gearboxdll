@@ -1,0 +1,51 @@
+#
+# Gearbox DLL Makefile for PS2
+#
+
+# Source directories
+GEARBOX_SRC_DIR=$(SOURCE_DIR)/gearbox/dlls
+
+# Object directory
+GEARBOX_OBJ_DIR=$(BUILD_OBJ_DIR)/gearboxdll
+GEARBOX_OUTPUT_DIR=$(SOURCE_DIR)/../game/gearbox
+
+# Include directories
+GEARBOX_INCLUDEDIRS=-I$(ENGINE_SRC_DIR) -I$(COMMON_SRC_DIR) -I$(PM_SRC_DIR) -I$(PUBLIC_SRC_DIR) -I$(GAME_SHARED_SRC_DIR)
+
+# Compiler flags
+CFLAGS=$(BASE_CFLAGS) $(ARCH_CFLAGS) -DPS2 -DGEARBOX
+
+# Linker flags
+LDFLAGS= -lm -lstdc++
+
+DO_GEARBOX_CC=$(CC) $(GEARBOX_INCLUDEDIRS) $(CFLAGS) -o $@ -c $<
+
+#####################################################################
+
+GEARBOX_OBJS = \
+	$(GEARBOX_OBJ_DIR)/gearbox.o \
+	$(GEARBOX_OBJ_DIR)/game.o \
+	$(GEARBOX_OBJ_DIR)/weapons.o \
+	$(GEARBOX_OBJ_DIR)/monsters.o \
+	$(GEARBOX_OBJ_DIR)/items.o
+
+all: dirs gearbox.$(SHLIBEXT)
+
+dirs:
+	-mkdir -p $(BUILD_OBJ_DIR)
+	-mkdir -p $(GEARBOX_OBJ_DIR)
+
+gearbox.$(SHLIBEXT): $(GEARBOX_OBJS)
+	$(CC) $(LDFLAGS) $(SHLIBLDFLAGS) -o $(BUILD_DIR)/$@ $(GEARBOX_OBJS)
+	ifeq ($(CREATE_OUTPUT_DIRS),1)
+		mkdir -p $(GEARBOX_OUTPUT_DIR)/dlls
+	endif
+	cp $(BUILD_DIR)/$@ $(GEARBOX_OUTPUT_DIR)/dlls/gearbox.$(SHLIBEXT)
+	./gendbg.sh $(GEARBOX_OUTPUT_DIR)/dlls/gearbox.$(SHLIBEXT)
+
+$(GEARBOX_OBJ_DIR)/%.o : $(GEARBOX_SRC_DIR)/%.cpp
+	$(DO_GEARBOX_CC)
+
+clean:
+	-rm -rf $(GEARBOX_OBJ_DIR)
+	-rm -f gearbox_$(ARCH).$(SHLIBEXT)

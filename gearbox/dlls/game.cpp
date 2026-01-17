@@ -11,6 +11,9 @@
 #include "items.h"
 #include "game.h"
 
+// Global function table from cbase
+DLL_FUNCTIONS gFunctionTable;
+
 // Game rules implementation
 COpposingForceGame::COpposingForceGame()
 {

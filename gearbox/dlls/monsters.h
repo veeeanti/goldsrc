@@ -8,7 +8,7 @@
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
-#include "monster.h"
+#include "basemonster.h"
 
 // Monster classes
 class CMaleAssassin : public CBaseMonster

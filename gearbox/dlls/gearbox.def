@@ -5,6 +5,7 @@
 LIBRARY "gearbox"
 EXPORTS
 	GetEntityAPI
+	GetEntityAPI2
 	GetNewDLLFunctions
 	GameDLLInit
 	DispatchSpawn
