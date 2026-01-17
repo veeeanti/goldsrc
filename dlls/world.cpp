@@ -462,6 +462,14 @@ void ResetGlobalState( void )
 
 LINK_ENTITY_TO_CLASS( worldspawn, CWorld );
 
+TYPEDESCRIPTION    CWorld::m_SaveData[] =
+{
+    DEFINE_FIELD(CWorld, m_iszChapter, FIELD_STRING),
+    DEFINE_FIELD(CWorld, m_iszArea, FIELD_STRING),
+    DEFINE_FIELD(CWorld, m_iszImage, FIELD_STRING),
+};
+IMPLEMENT_SAVERESTORE(CWorld, CBaseEntity);
+
 #define SF_WORLD_DARK		0x0001		// Fade from black at startup
 #define SF_WORLD_TITLE		0x0002		// Display game title at startup
 #define SF_WORLD_FORCETEAM	0x0004		// Force teams
@@ -472,6 +480,9 @@ void CWorld :: Spawn( void )
 {
 	g_fGameOver = FALSE;
 	Precache( );
+	CVAR_SET_STRING("rpc_chapter", m_iszChapter ? STRING(m_iszChapter) : "");
+	CVAR_SET_STRING("rpc_area", m_iszArea ? STRING(m_iszArea) : "");
+	CVAR_SET_STRING("rpc_image", m_iszImage ? STRING(m_iszImage) : "");
 }
 
 void CWorld :: Precache( void )
@@ -663,6 +674,10 @@ void CWorld :: Precache( void )
 	{
 		CVAR_SET_FLOAT( "mp_defaultteam", 0 );
 	}
+	CVAR_SET_STRING("rpc_chapter", m_iszChapter ? STRING(m_iszChapter) : "");
+	CVAR_SET_STRING("rpc_area", m_iszArea ? STRING(m_iszArea) : "");
+	CVAR_SET_STRING("rpc_image", m_iszImage ? STRING(m_iszImage) : "");
+
 }
 
 
@@ -734,6 +749,21 @@ void CWorld :: KeyValue( KeyValueData *pkvd )
 			pev->spawnflags |= SF_WORLD_FORCETEAM;
 		}
 		pkvd->fHandled = TRUE;
+	}
+	else if (FStrEq(pkvd->szKeyName, "rpc_chapter"))
+	{
+	    m_iszChapter = ALLOC_STRING(pkvd->szValue);
+	    pkvd->fHandled = TRUE;
+	}
+	else if (FStrEq(pkvd->szKeyName, "rpc_area"))
+	{
+	    m_iszArea = ALLOC_STRING(pkvd->szValue);
+	    pkvd->fHandled = TRUE;
+	}
+	else if (FStrEq(pkvd->szKeyName, "rpc_image"))
+	{
+	    m_iszImage = ALLOC_STRING(pkvd->szValue);
+	    pkvd->fHandled = TRUE;
 	}
 	else
 		CBaseEntity::KeyValue( pkvd );

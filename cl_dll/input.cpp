@@ -24,6 +24,10 @@ extern "C"
 
 #include "vgui_TeamFortressViewport.h"
 
+#include "discord_manager.h"
+cvar_t *rpc_chapter;
+cvar_t *rpc_area;
+cvar_t *rpc_image;
 
 extern int g_iAlive;
 
@@ -978,6 +982,11 @@ void InitInput (void)
 	gEngfuncs.pfnAddCommand ("-graph", IN_GraphUp);
 	gEngfuncs.pfnAddCommand ("+break",IN_BreakDown);
 	gEngfuncs.pfnAddCommand ("-break",IN_BreakUp);
+	gEngfuncs.Con_Printf("Initializing Discord RPC CVars\n");
+	rpc_chapter = gEngfuncs.pfnRegisterVariable("rpc_chapter", "", FCVAR_CLIENTDLL);
+	rpc_area = gEngfuncs.pfnRegisterVariable("rpc_area", "", FCVAR_CLIENTDLL);
+	rpc_image = gEngfuncs.pfnRegisterVariable("rpc_image", "", FCVAR_CLIENTDLL);
+
 
 	lookstrafe			= gEngfuncs.pfnRegisterVariable ( "lookstrafe", "0", FCVAR_ARCHIVE );
 	lookspring			= gEngfuncs.pfnRegisterVariable ( "lookspring", "0", FCVAR_ARCHIVE );
@@ -998,7 +1007,8 @@ void InitInput (void)
 	m_yaw				= gEngfuncs.pfnRegisterVariable ( "m_yaw","0.022", FCVAR_ARCHIVE );
 	m_forward			= gEngfuncs.pfnRegisterVariable ( "m_forward","1", FCVAR_ARCHIVE );
 	m_side				= gEngfuncs.pfnRegisterVariable ( "m_side","0.8", FCVAR_ARCHIVE );
-
+	
+	
 	// Initialize third person camera controls.
 	CAM_Init();
 	// Initialize inputs
@@ -1007,6 +1017,9 @@ void InitInput (void)
 	KB_Init();
 	// Initialize view system
 	V_Init();
+
+	gEngfuncs.Con_Printf("Starting up Discord RPC\n");
+	DiscordMan_Startup();
 }
 
 /*
@@ -1028,7 +1041,10 @@ void ClearEventList( void );
 #endif
 
 void CL_DLLEXPORT HUD_Shutdown( void )
-{
+{	
+	gEngfuncs.Con_Printf("Shutting down Discord RPC\n");
+	DiscordMan_Kill();
+
 //	RecClShutdown();
 
 	ShutdownInput();

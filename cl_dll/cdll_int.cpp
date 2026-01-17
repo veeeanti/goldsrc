@@ -45,6 +45,8 @@ extern "C"
 #include "tri.h"
 #include "vgui_TeamFortressViewport.h"
 #include "../public/interface.h"
+#include "discord_manager.h"
+
 
 cl_enginefunc_t gEngfuncs;
 CHud gHUD;
@@ -197,6 +199,7 @@ void CL_DLLEXPORT HUD_Init( void )
 	InitInput();
 	gHUD.Init();
 	Scheme_Init();
+	DiscordMan_Startup();
 }
 
 
@@ -271,6 +274,8 @@ void CL_DLLEXPORT HUD_Frame( double time )
 	ServersThink( time );
 
 	GetClientVoiceMgr()->Frame(time);
+
+	DiscordMan_Update();
 }
 
 
