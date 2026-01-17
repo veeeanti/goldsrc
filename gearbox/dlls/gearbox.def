@@ -1,0 +1,18 @@
+//
+// gearbox.def - Opposing Force server DLL module definition
+//
+
+LIBRARY "gearbox"
+EXPORTS
+	GetEntityAPI
+	GetNewDLLFunctions
+	GameDLLInit
+	DispatchSpawn
+	DispatchThink
+	DispatchUse
+	DispatchTouch
+	DispatchBlocked
+	DispatchKeyValue
+	DispatchSave
+	DispatchRestore
+	DispatchObjectCollsionBox

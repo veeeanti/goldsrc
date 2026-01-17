@@ -1,0 +1,9 @@
+//
+// gearbox.rc - Opposing Force client DLL resource file
+//
+
+#include "resource.h"
+
+IDI_ICON1 ICON "gearbox.ico"
+
+IDR_RT_MANIFEST1 MANIFEST "gearbox.manifest"

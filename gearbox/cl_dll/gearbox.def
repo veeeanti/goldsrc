@@ -1,0 +1,13 @@
+//
+// gearbox.def - Opposing Force client DLL module definition
+//
+
+LIBRARY "gearbox"
+EXPORTS
+	CreateInterface
+	GetHudPointer
+	VID_Shutdown
+	HUD_Draw
+	HUD_Reset
+	HUD_Init
+	HUD_VidInit
