@@ -1,22 +1,14 @@
 /***
  *
- *	Copyright (c) 2024, Valve LLC. All rights reserved.
+ *	Rewritten from the older Discord RPC SDK to use current functions
+ *  and structures as per the Discord Game SDK documentation.
+ *	The implementation from using just the older SDK is unusable
+ *	and seemingly incompatible with the current Discord client.
  *	
- *	This product contains software technology licensed from Id 
- *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
- *	All Rights Reserved.
- *	
- *   Use, distribution, and modification of this source code and/or resulting
- *   object code is restricted to non-commercial enhancements to products from
- *   Valve LLC.  All other use, distribution, or modification is prohibited
- *   without written permission from Valve LLC.
+ *  veeλnti - 2026
  *
  ****/
- //
- //  discord_rpc.h
- //
- // Discord Rich Presence implementation for Half-Life
- //
+
 
 #ifndef DISCORD_RPC_H
 #define DISCORD_RPC_H
@@ -28,7 +20,7 @@
 #include <string>
 
 // Discord RPC application ID
-#define DISCORD_APP_ID 1461994411759239273
+#define DISCORD_APP_ID 
 
 // Forward declarations
 class CDiscordRPC;
@@ -38,7 +30,7 @@ struct DiscordUser
 {
     const char* userId;
     const char* username;
-    const char* discriminator;
+    const char* discriminator; // This sdk requires discriminators even though Discord got rid of them, it'll show up as just "#0"
     const char* avatar;
 };
 

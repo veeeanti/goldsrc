@@ -5,6 +5,20 @@
 // Jay - 2022
 // ================================================== \\
 
+/***
+ * 
+ * I rewrote certain parts of this to use the Discord Game SDK
+ * functions and structures, as the older Discord RPC SDK is 
+ * seemingly incompatible with the current Discord client.
+ * I also added heavily onto the maps and chapter details for
+ * the RPC to show. Only the main Half-Life campaign, Hazard Course, and 
+ * Uplink demo are supported. Multiplayer is not yet supported.
+ * Not the maps nor the whole MP functionality is implemented. Yet.
+ * 
+ * veeλnti - 2026
+ * 
+ ***/
+
 #include "hud.h"
 #include "discord_manager.h"
 #include <string.h>
@@ -50,11 +64,11 @@ const MapChapter mapChapters[] = {
     {"maps/c1a2b.bsp", "Office Complex"},
     {"maps/c1a2c.bsp", "Office Complex"},
     {"maps/c1a2d.bsp", "Office Complex"},
-    {"maps/c1a3.bsp", "We've Got Hostiles"},
-    {"maps/c1a3a.bsp", "We've Got Hostiles"},
-    {"maps/c1a3b.bsp", "We've Got Hostiles"},
-    {"maps/c1a3c.bsp", "We've Got Hostiles"},
-    {"maps/c1a3d.bsp", "We've Got Hostiles"},
+    {"maps/c1a3.bsp", "\"We've Got Hostiles\""},
+    {"maps/c1a3a.bsp", "\"We've Got Hostiles\""},
+    {"maps/c1a3b.bsp", "\"We've Got Hostiles\""},
+    {"maps/c1a3c.bsp", "\"We've Got Hostiles\""},
+    {"maps/c1a3d.bsp", "\"We've Got Hostiles\""},
     {"maps/c1a4.bsp", "Blast Pit"},
     {"maps/c1a4b.bsp", "Blast Pit"},
     {"maps/c1a4d.bsp", "Blast Pit"},
@@ -101,9 +115,9 @@ const MapChapter mapChapters[] = {
     {"maps/c2a5g.bsp", "Surface Tension"},
     {"maps/c2a5w.bsp", "Surface Tension"},
     {"maps/c2a5x.bsp", "Surface Tension"},
-    {"maps/c3a1.bsp", "Forget About Freeman!"},
-    {"maps/c3a1a.bsp", "Forget About Freeman!"},
-    {"maps/c3a1b.bsp", "Forget About Freeman!"},
+    {"maps/c3a1.bsp", "\"Forget About Freeman!\""},
+    {"maps/c3a1a.bsp", "\"Forget About Freeman!\""},
+    {"maps/c3a1b.bsp", "\"Forget About Freeman!\""},
     {"maps/c3a2.bsp", "Lambda Core"},
     {"maps/c3a2a.bsp", "Lambda Core"},
     {"maps/c3a2b.bsp", "Lambda Core"},
@@ -224,7 +238,7 @@ void DiscordMan_Update(void)
         if (strlen(chapter) > 0) {
             presence.details = chapter;
         } else {
-            presence.details = "Playing Half-Life";
+            presence.details = "In menus or custom map...";
         }
         presence.largeImageKey = defaultLogo;
         presence.startTimestamp = time(0);

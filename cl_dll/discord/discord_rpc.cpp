@@ -1,16 +1,20 @@
 /***
  *
- *	Copyright (c) 2024, Valve LLC. All rights reserved.
- *	
- *	This product contains software technology licensed from Id 
- *	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
- *	All Rights Reserved.
- *	
- *   Use, distribution, and modification of this source code and/or resulting
- *   object code is restricted to non-commercial enhancements to products from
- *   Valve LLC.  All other use, distribution, or modification is prohibited
- *   without written permission from Valve LLC.
- *
+ *	No copyrights. I wrote this using the Discord Game SDK examples
+ *  and documentation as reference, feel free to use it however you like.
+ *  The main thing is that with this codebase, only Half-Life is supported.
+ *	I'm trying to figure out how to get Opposing Force, Blue Shift and
+ *	any other GoldSrc mods to work with Discord RPC, but so far no luck.
+ *	I've only tried rewriting necessary code here to support OpFor, it didn't
+ *  exactly work but it'll take more time to figure it out.
+ *  Blue Shift should be easier since it's basically just Half-Life with
+ *  model swaps for stuff like the battery and HEV suit for armor and Barney's
+ *  vest and helmet. (And the lack of HEV charger usage...)
+ *  In any case, this replaces the "discord_register.h" file from the older
+ *  RPC SDK. It was instructed by Jay! on the TWHL wiki to do so.
+ * 
+ *  veeλnti - 2026 
+ * 
  ****/
  
 #include "discord_rpc.h"
