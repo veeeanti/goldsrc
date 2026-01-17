@@ -1,0 +1,77 @@
+//
+// gearbox.h - Opposing Force client DLL header
+//
+
+#ifndef GEARBOX_H
+#define GEARBOX_H
+
+#include "hud.h"
+#include "cl_util.h"
+
+// Weapon IDs
+#define WEAPON_CROWBAR 0
+#define WEAPON_9MMHANDGUN 1
+#define WEAPON_9MMAR 2
+#define WEAPON_SHOTGUN 3
+#define WEAPON_CROSSBOW 4
+#define WEAPON_357 5
+#define WEAPON_RPG 6
+#define WEAPON_GAUSS 7
+#define WEAPON_EGON 8
+#define WEAPON_HORNETGUN 9
+#define WEAPON_TRIPMINE 10
+#define WEAPON_SATCHEL 11
+#define WEAPON_HANDGRENADE 12
+#define WEAPON_SNARK 13
+#define WEAPON_DISPLACER 14
+#define WEAPON_EAGLE 15
+#define WEAPON_GRAPPLE 16
+#define WEAPON_KNIFE 17
+#define WEAPON_M249 18
+#define WEAPON_PIPEWRENCH 19
+#define WEAPON_SHOCKRIFLE 20
+#define WEAPON_SNIPERRIFLE 21
+#define WEAPON_SPORELAUNCHER 22
+
+// Monster IDs
+#define MONSTER_ALIEN_SLAVE 0
+#define MONSTER_HUMAN_GRUNT 1
+#define MONSTER_HUMAN_GRUNT_ALLY 2
+#define MONSTER_HUMAN_GRUNT_REPEL 3
+#define MONSTER_HUMAN_GRUNT_ALLY_REPEL 4
+#define MONSTER_HUMAN_ASSASSIN 5
+#define MONSTER_HUMAN_ASSASSIN_REPEL 6
+#define MONSTER_MALE_ASSASSIN 7
+#define MONSTER_SHOCKTROOPER 8
+#define MONSTER_HUMAN_MEDIC_ALLY 9
+#define MONSTER_HUMAN_TORCH_ALLY 10
+#define MONSTER_DRILLSERGEANT 11
+#define MONSTER_OTIS 12
+#define MONSTER_RECRUIT 13
+#define MONSTER_CLEANSUIT_SCIENTIST 14
+#define MONSTER_SITTING_CLEANSUIT_SCIENTIST 15
+#define MONSTER_GONOME 16
+#define MONSTER_VOLTIGORE 17
+#define MONSTER_BABY_VOLTIGORE 18
+#define MONSTER_PITWORM 19
+#define MONSTER_PITWORM_UP 20
+#define MONSTER_PITDRONE 21
+#define MONSTER_GENEWORM 22
+#define MONSTER_SHOCKROACH 23
+#define MONSTER_BABYCRAB 24
+#define MONSTER_RAT 25
+#define MONSTER_SNARK 26
+
+// HUD elements
+class CHudGearbox : public CHudBase
+{
+public:
+	CHudGearbox(void);
+	int Init(void);
+	int Draw(float flTime);
+	int VidInit(void);
+	void Reset(void);
+	int MsgFunc_GearboxMessage(const char *pszName, int iSize, void *pbuf);
+};
+
+#endif // GEARBOX_H

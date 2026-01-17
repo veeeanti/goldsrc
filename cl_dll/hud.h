@@ -33,6 +33,8 @@
 #include "cl_dll.h"
 #include "ammo.h"
 
+class CHudGearbox;
+
 #define DHN_DRAWZERO 1
 #define DHN_2DIGITS  2
 #define DHN_3DIGITS  4
@@ -612,6 +614,7 @@ public:
 	CHudTextMessage m_TextMessage;
 	CHudStatusIcons m_StatusIcons;
 	CHudBenchmark	m_Benchmark;
+	CHudGearbox	m_Gearbox;
 
 	void Init( void );
 	void VidInit( void );
