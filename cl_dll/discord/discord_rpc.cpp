@@ -90,7 +90,7 @@ bool CDiscordRPC::Init(DiscordEventHandlers* handlers)
     }
 
     // Initialize Discord RPC
-    Discord_Initialize("1461994411759239273", handlers, 1, nullptr);
+    Discord_Initialize("1462497045633040630", handlers, 1, nullptr);
     m_bInitialized = true;
     m_bActive = true;
     m_iStartTimestamp = (int64_t)time(nullptr);
