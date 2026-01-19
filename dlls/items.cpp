@@ -70,6 +70,12 @@ void CWorldItem::Spawn( void )
 	case 45: // ITEM_SUIT:
 		pEntity = CBaseEntity::Create( "item_suit", pev->origin, pev->angles );
 		break;
+	case 46: // ITEM_HELMET:
+		pEntity = CBaseEntity::Create( "item_helmet", pev->origin, pev->angles );
+		break;
+	case 47: // ITEM_ARMORVEST:
+		pEntity = CBaseEntity::Create( "item_armorvest", pev->origin, pev->angles );
+		break;
 	}
 
 	if (!pEntity)
@@ -194,6 +200,12 @@ class CItemSuit : public CItem
 			EMIT_SOUND_SUIT(pPlayer->edict(), "!HEV_AAx");	// long version of suit logon
 
 		pPlayer->pev->weapons |= (1<<WEAPON_SUIT);
+		
+		// Send item pickup message to client so HUD updates
+		MESSAGE_BEGIN( MSG_ONE, gmsgItemPickup, NULL, pPlayer->pev );
+			WRITE_STRING( STRING(pev->classname) );
+		MESSAGE_END();
+		
 		return TRUE;
 	}
 };
@@ -340,3 +352,101 @@ class CItemLongJump : public CItem
 };
 
 LINK_ENTITY_TO_CLASS( item_longjump, CItemLongJump );
+
+class CItemHelmet : public CItem
+{
+	void Spawn( void )
+	{ 
+		Precache( );
+		SET_MODEL(ENT(pev), "models/barney_helmet.mdl");
+		CItem::Spawn( );
+	}
+	void Precache( void )
+	{
+		PRECACHE_MODEL ("models/barney_helmet.mdl");
+		PRECACHE_SOUND( "items/gunpickup2.wav" );
+	}
+	BOOL MyTouch( CBasePlayer *pPlayer )
+	{
+		if ( pPlayer->pev->deadflag != DEAD_NO )
+		{
+			return FALSE;
+		}
+
+		// Give player the suit equivalent for Barney
+		if ( !(pPlayer->pev->weapons & (1<<WEAPON_SUIT)) )
+		{
+			pPlayer->pev->weapons |= (1<<WEAPON_SUIT);
+		}
+
+		// Helmet provides armor
+		if (pPlayer->pev->armorvalue < MAX_NORMAL_BATTERY)
+		{
+			pPlayer->pev->armorvalue += gSkillData.helmetCapacity;
+			pPlayer->pev->armorvalue = min<float>(pPlayer->pev->armorvalue, MAX_NORMAL_BATTERY);
+
+			EMIT_SOUND( pPlayer->edict(), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM );
+
+			MESSAGE_BEGIN( MSG_ONE, gmsgItemPickup, NULL, pPlayer->pev );
+				WRITE_STRING( STRING(pev->classname) );
+			MESSAGE_END();
+
+			// Update client data to reflect the suit being picked up
+			pPlayer->UpdateClientData();
+			
+			return TRUE;		
+		}
+		return FALSE;
+	}
+};
+
+LINK_ENTITY_TO_CLASS(item_helmet, CItemHelmet);
+
+class CItemArmorVest : public CItem
+{
+	void Spawn( void )
+	{ 
+		Precache( );
+		SET_MODEL(ENT(pev), "models/barney_vest.mdl");
+		CItem::Spawn( );
+	}
+	void Precache( void )
+	{
+		PRECACHE_MODEL ("models/barney_vest.mdl");
+		PRECACHE_SOUND( "items/gunpickup2.wav" );
+	}
+	BOOL MyTouch( CBasePlayer *pPlayer )
+	{
+		if ( pPlayer->pev->deadflag != DEAD_NO )
+		{
+			return FALSE;
+		}
+
+		// Give player the suit equivalent for Barney
+		if ( !(pPlayer->pev->weapons & (1<<WEAPON_SUIT)) )
+		{
+			pPlayer->pev->weapons |= (1<<WEAPON_SUIT);
+		}
+
+		// Armor vest provides armor
+		if (pPlayer->pev->armorvalue < MAX_NORMAL_BATTERY)
+		{
+			pPlayer->pev->armorvalue += gSkillData.armorVestCapacity;
+			pPlayer->pev->armorvalue = min<float>(pPlayer->pev->armorvalue, MAX_NORMAL_BATTERY);
+
+			EMIT_SOUND( pPlayer->edict(), CHAN_ITEM, "items/gunpickup2.wav", 1, ATTN_NORM );
+
+			MESSAGE_BEGIN( MSG_ONE, gmsgItemPickup, NULL, pPlayer->pev );
+				WRITE_STRING( STRING(pev->classname) );
+			MESSAGE_END();
+
+			// Update client data to reflect the suit being picked up
+			pPlayer->UpdateClientData();
+			
+			return TRUE;		
+		}
+		return FALSE;
+	}
+};
+
+LINK_ENTITY_TO_CLASS(item_armorvest, CItemArmorVest);

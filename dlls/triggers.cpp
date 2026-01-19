@@ -2084,6 +2084,30 @@ void CTriggerGravity::GravityTouch( CBaseEntity *pOther )
 	pOther->pev->gravity = pev->gravity;
 }
 
+class CTriggerPlayerFreeze : public CBaseTrigger
+{
+public:
+	void Spawn( void );
+	void EXPORT PlayerFreezeTouch( CBaseEntity *pOther );
+};
+LINK_ENTITY_TO_CLASS( trigger_playerfreeze, CTriggerPlayerFreeze );
+
+void CTriggerPlayerFreeze::Spawn( void )
+{
+	InitTrigger();
+	SetTouch( &CTriggerPlayerFreeze::PlayerFreezeTouch );
+}
+
+void CTriggerPlayerFreeze::PlayerFreezeTouch( CBaseEntity *pOther )
+{
+	// Only freeze players
+	if ( !pOther->IsPlayer() )
+		return;
+
+	// Freeze the player
+	((CBasePlayer *)pOther)->EnableControl(FALSE);
+}
+
 
 
 

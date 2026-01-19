@@ -61,6 +61,8 @@ public:
 #define ITEM_ANTIDOTE		2
 #define ITEM_SECURITY		3
 #define ITEM_BATTERY		4
+#define ITEM_HELMET			5
+#define ITEM_ARMORVEST		6
 
 #define WEAPON_NONE				0
 #define WEAPON_CROWBAR			1

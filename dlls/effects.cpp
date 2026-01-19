@@ -2188,6 +2188,84 @@ void CEnvBeverage::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE 
 	//pev->nextthink = gpGlobals->time;
 }
 
+class CEnvWarpBall : public CPointEntity
+{
+public:
+	void Spawn( void );
+	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
+	void KeyValue( KeyValueData *pkvd );
+
+private:
+	string_t m_szWarpTarget;
+	float m_flRadius;
+};
+
+LINK_ENTITY_TO_CLASS( env_warpball, CEnvWarpBall );
+
+void CEnvWarpBall::Spawn( void )
+{
+	pev->solid = SOLID_NOT;
+	pev->movetype = MOVETYPE_NONE;
+	pev->effects = 0;
+	pev->frame = 0;
+
+	if ( m_flRadius <= 0 )
+		m_flRadius = 256.0f;
+}
+
+void CEnvWarpBall::KeyValue( KeyValueData *pkvd )
+{
+	if (FStrEq(pkvd->szKeyName, "warp_target"))
+	{
+		m_szWarpTarget = ALLOC_STRING(pkvd->szValue);
+		pkvd->fHandled = TRUE;
+	}
+	else if (FStrEq(pkvd->szKeyName, "radius"))
+	{
+		m_flRadius = atof(pkvd->szValue);
+		pkvd->fHandled = TRUE;
+	}
+	else
+		CPointEntity::KeyValue( pkvd );
+}
+
+void CEnvWarpBall::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
+{
+	// Find the warp target
+	CBaseEntity *pTarget = UTIL_FindEntityByTargetname( NULL, STRING(m_szWarpTarget) );
+	
+	if ( !pTarget )
+	{
+		ALERT( at_console, "env_warpball: Could not find warp target \"%s\"\n", STRING(m_szWarpTarget) );
+		return;
+	}
+
+	// Warp all players and monsters within radius
+	CBaseEntity *pEntity = NULL;
+	while ( (pEntity = UTIL_FindEntityInSphere( pEntity, pev->origin, m_flRadius )) != NULL )
+	{
+		if ( pEntity->IsPlayer() || (pEntity->pev->flags & FL_MONSTER) )
+		{
+			// Teleport the entity
+			pEntity->pev->origin = pTarget->pev->origin;
+			pEntity->pev->velocity = Vector( 0, 0, 0 );
+			pEntity->pev->angles = pTarget->pev->angles;
+			
+			// If "Kill Center" spawn flag is set, kill the entity
+			if ( pev->spawnflags & 2 )
+			{
+				pEntity->TakeDamage( pev, pev, 9999, DMG_GENERIC );
+			}
+		}
+	}
+
+	// If "Remove On fire" spawn flag is set, remove the warpball
+	if ( pev->spawnflags & 1 )
+	{
+		UTIL_Remove( this );
+	}
+}
+
 void CEnvBeverage::Spawn( void )
 {
 	Precache();

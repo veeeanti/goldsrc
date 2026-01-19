@@ -537,6 +537,12 @@ int CHudAmmo::MsgFunc_ItemPickup( const char *pszName, int iSize, void *pbuf )
 	// Add the weapon to the history
 	gHR.AddToHistory( HISTSLOT_ITEM, szName );
 
+	// If we picked up the suit or Blue Shift specific armor items, mark suit as available in HUD
+	if (strcmp(szName, "item_helmet") == 0 || strcmp(szName, "item_armorvest") == 0)
+	{
+		gHUD.m_iWeaponBits |= (1 << WEAPON_SUIT);
+	}
+
 	return 1;
 }
 

@@ -21,7 +21,7 @@
 //
 
 
-#define RGB_YELLOWISH 0x00FFA000 //255,160,0
+#define RGB_YELLOWISH 0x0000A0FF //0,160,255 (Blue)
 #define RGB_REDISH 0x00FF1010 //255,160,0
 #define RGB_GREENISH 0x0000A000 //0,160,0
 
@@ -656,4 +656,7 @@ extern int g_iTeamNumber;
 extern int g_iUser1;
 extern int g_iUser2;
 extern int g_iUser3;
+
+int HUD_IsGame( const char *game );
+float HUD_GetFOV( void );
 

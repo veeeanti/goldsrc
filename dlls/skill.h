@@ -121,6 +121,10 @@ struct skilldata_t
 	float healthchargerCapacity;
 	float healthkitCapacity;
 	float scientistHeal;
+	
+	// Blue Shift specific items
+	float helmetCapacity;
+	float armorVestCapacity;
 
 // monster damage adj
 	float monHead;

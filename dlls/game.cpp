@@ -406,6 +406,15 @@ cvar_t	sk_scientist_heal1	= { "sk_scientist_heal1","0" };
 cvar_t	sk_scientist_heal2	= { "sk_scientist_heal2","0" };	
 cvar_t	sk_scientist_heal3	= { "sk_scientist_heal3","0" };	
 
+// Blue Shift specific items
+cvar_t	sk_helmet1			= { "sk_helmet1","10" };
+cvar_t	sk_helmet2			= { "sk_helmet2","10" };
+cvar_t	sk_helmet3			= { "sk_helmet3","10" };
+
+cvar_t	sk_armorvest1		= { "sk_armorvest1","20" };
+cvar_t	sk_armorvest2		= { "sk_armorvest2","20" };
+cvar_t	sk_armorvest3		= { "sk_armorvest3","20" };
+
 
 // monster damage adjusters
 cvar_t	sk_monster_head1	= { "sk_monster_head1","2" };
@@ -849,6 +858,15 @@ void GameDLLInit( void )
 	CVAR_REGISTER ( &sk_scientist_heal1 );
 	CVAR_REGISTER ( &sk_scientist_heal2 );
 	CVAR_REGISTER ( &sk_scientist_heal3 );
+
+	// Blue Shift specific items
+	CVAR_REGISTER ( &sk_helmet1 );
+	CVAR_REGISTER ( &sk_helmet2 );
+	CVAR_REGISTER ( &sk_helmet3 );
+
+	CVAR_REGISTER ( &sk_armorvest1 );
+	CVAR_REGISTER ( &sk_armorvest2 );
+	CVAR_REGISTER ( &sk_armorvest3 );
 
 // monster damage adjusters
 	CVAR_REGISTER ( &sk_monster_head1 );

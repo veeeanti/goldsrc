@@ -105,8 +105,7 @@ int CHudBattery::Draw(float flTime)
 
 	UnpackRGB(r,g,b, RGB_YELLOWISH);
 
-	if (!(gHUD.m_iWeaponBits & (1<<(WEAPON_SUIT)) ))
-		return 1;
+	// Always display armor HUD (for Blue Shift's helmet/vest system)
 
 	// Has health changed? Flash the health #
 	if (m_fFade)

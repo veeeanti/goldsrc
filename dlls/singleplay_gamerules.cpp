@@ -201,6 +201,8 @@ float CHalfLifeRules::FlPlayerFallDamage( CBasePlayer *pPlayer )
 //=========================================================
 void CHalfLifeRules :: PlayerSpawn( CBasePlayer *pPlayer )
 {
+	// Give player the suit by default (for HUD to show up)
+	pPlayer->pev->weapons |= (1<<WEAPON_SUIT);
 }
 
 //=========================================================

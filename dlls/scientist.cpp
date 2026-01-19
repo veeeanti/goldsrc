@@ -28,8 +28,8 @@
 #include	"soundent.h"
 
 
-#define		NUM_SCIENTIST_HEADS		4 // four heads available for scientist model
-enum { HEAD_GLASSES = 0, HEAD_EINSTEIN = 1, HEAD_LUTHER = 2, HEAD_SLICK = 3 };
+#define		NUM_SCIENTIST_HEADS		5 // five heads available for scientist model (including Rosenberg for Blue Shift)
+enum { HEAD_GLASSES = 0, HEAD_EINSTEIN = 1, HEAD_LUTHER = 2, HEAD_SLICK = 3, HEAD_ROSENBERG = 4 };
 
 enum
 {
@@ -1211,6 +1211,42 @@ public:
 };
 
 LINK_ENTITY_TO_CLASS( monster_sitting_scientist, CSittingScientist );
+
+class CRosenberg : public CScientist
+{
+public:
+	void Spawn( void );
+};
+
+LINK_ENTITY_TO_CLASS( monster_rosenberg, CRosenberg );
+
+void CRosenberg::Spawn( void )
+{
+	Precache();
+
+	SET_MODEL(ENT(pev), GetScientistModel());
+	UTIL_SetSize(pev, VEC_HUMAN_HULL_MIN, VEC_HUMAN_HULL_MAX);
+
+	pev->solid			= SOLID_SLIDEBOX;
+	pev->movetype		= MOVETYPE_STEP;
+	m_bloodColor		= BLOOD_COLOR_RED;
+	pev->health			= gSkillData.scientistHealth;
+	pev->view_ofs		= Vector ( 0, 0, 50 );// position of the eyes relative to monster's origin.
+	m_flFieldOfView		= VIEW_FIELD_WIDE; // wide field of view to notice player
+
+	m_MonsterState		= MONSTERSTATE_NONE;
+
+	m_afCapability		= bits_CAP_HEAR | bits_CAP_TURN_HEAD | bits_CAP_OPEN_DOORS | bits_CAP_AUTO_DOORS | bits_CAP_USE;
+
+	// White hands
+	pev->skin = 0;
+
+	// Always use Rosenberg's head (body = 4)
+	pev->body = HEAD_ROSENBERG;
+	
+	MonsterInit();
+	SetUse( &CScientist::FollowerUse );
+}
 TYPEDESCRIPTION	CSittingScientist::m_SaveData[] = 
 {
 	// Don't need to save/restore m_baseSequence (recalced)

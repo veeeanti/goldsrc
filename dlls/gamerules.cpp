@@ -289,6 +289,10 @@ void CGameRules::RefreshSkillData ( void )
 	gSkillData.healthchargerCapacity = GetSkillCvar ( "sk_healthcharger" );
 	gSkillData.healthkitCapacity = GetSkillCvar ( "sk_healthkit" );
 	gSkillData.scientistHeal = GetSkillCvar ( "sk_scientist_heal" );
+	
+	// Blue Shift specific items
+	gSkillData.helmetCapacity = GetSkillCvar( "sk_helmet" );
+	gSkillData.armorVestCapacity = GetSkillCvar( "sk_armorvest" );
 
 	// monster damage adj
 	gSkillData.monHead = GetSkillCvar( "sk_monster_head" );
