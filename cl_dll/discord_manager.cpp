@@ -11,9 +11,8 @@
  * functions and structures, as the older Discord RPC SDK is 
  * seemingly incompatible with the current Discord client.
  * I also added heavily onto the maps and chapter details for
- * the RPC to show. Only the main Half-Life campaign, Hazard Course, and 
- * Uplink demo are supported. Multiplayer is not yet supported.
- * Not the maps nor the whole MP functionality is implemented. Yet.
+ * the RPC to show. Only the main Half-Life: Blue Shift campaign
+ * and Hazard Course maps are included.
  * 
  * veeλnti - 2026
  * 
