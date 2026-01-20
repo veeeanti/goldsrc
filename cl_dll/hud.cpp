@@ -441,9 +441,7 @@ void CHud :: VidInit( void )
 	else
 	{
 #if !defined( _TFC )
-		if (ScreenWidth > 2560 && ScreenHeight > 1600)
-			m_iRes = 2560;
-		else if (ScreenWidth >= 1280 && ScreenHeight > 720)
+		if (ScreenWidth >= 1280)
 			m_iRes = 1280;
 		else 
 #endif

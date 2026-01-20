@@ -74,17 +74,26 @@ void WeaponsResource :: LoadWeaponSprites( WEAPON *pWeapon )
 {
 	int i, iRes;
 
+	// Blue Shift only has 320 and 640 resolution sprites
+	if (HUD_IsGame("bshift"))
+	{
+		if (ScreenWidth >= 640)
+			iRes = 640;
+		else
+			iRes = 320;
+	}
+	else
+	{
 #if !defined( _TFC )
-	if (ScreenWidth > 2560 && ScreenHeight > 1600)
-		iRes = 2560;
-	else if (ScreenWidth >= 1280 && ScreenHeight > 720)
-		iRes = 1280;
-	else
+		if (ScreenWidth >= 1280)
+			iRes = 1280;
+		else
 #endif
-	if (ScreenWidth >= 640)
-		iRes = 640;
-	else
-		iRes = 320;
+		if (ScreenWidth >= 640)
+			iRes = 640;
+		else
+			iRes = 320;
+	}
 
 	char sz[128];
 
@@ -334,15 +343,22 @@ int CHudAmmo::VidInit(void)
 
 	int nScale = 1;
 
+	// Blue Shift only has 320 and 640 resolution sprites
+	if (HUD_IsGame("bshift"))
+	{
+		if (ScreenWidth >= 640)
+			nScale = 2;
+	}
+	else
+	{
 #if !defined( _TFC )
-	if (ScreenWidth > 2560 && ScreenHeight > 1600)
-		nScale = 4;
-	else if (ScreenWidth >= 1280 && ScreenHeight > 720)
-		nScale = 3;
-	else 
+		if (ScreenWidth >= 1280)
+			nScale = 3;
+		else 
 #endif
-	if (ScreenWidth >= 640)
-		nScale = 2;
+		if (ScreenWidth >= 640)
+			nScale = 2;
+	}
 
 	giABWidth = 10 * nScale;
 	giABHeight = 2 * nScale;
@@ -786,36 +802,51 @@ void CHudAmmo::UserCmd_NextWeapon(void)
 	if ( gHUD.m_fPlayerDead || (gHUD.m_iHideHUDDisplay & (HIDEHUD_WEAPONS | HIDEHUD_ALL)) )
 		return;
 
+	WEAPON *startWeapon = NULL;
 	if ( !gpActiveSel || gpActiveSel == (WEAPON*)1 )
-		gpActiveSel = m_pWeapon;
+		startWeapon = m_pWeapon;
+	else
+		startWeapon = gpActiveSel;
 
-	int pos = 0;
-	int slot = 0;
-	if ( gpActiveSel )
-	{
-		pos = gpActiveSel->iSlotPos + 1;
-		slot = gpActiveSel->iSlot;
-	}
+	if ( !startWeapon )
+		return;
 
-	for ( int loop = 0; loop <= 1; loop++ )
+	int pos = startWeapon->iSlotPos + 1;
+	int slot = startWeapon->iSlot;
+
+	// Search for next available weapon
+	for ( int loop = 0; loop < 2; loop++ )
 	{
 		for ( ; slot < MAX_WEAPON_SLOTS; slot++ )
 		{
 			for ( ; pos < MAX_WEAPON_POSITIONS; pos++ )
 			{
 				WEAPON *wsp = gWR.GetWeaponSlot( slot, pos );
-
-				if ( wsp && gWR.HasAmmo(wsp) )
+				if ( wsp && wsp->iId && gWR.HasAmmo(wsp) && wsp != startWeapon )
 				{
 					gpActiveSel = wsp;
+					PlaySound("common/wpn_moveselect.wav", 1);
 					return;
 				}
 			}
-
 			pos = 0;
 		}
+		slot = 0;
+	}
 
-		slot = 0;  // start looking from the first slot again
+	// If no other weapon found, select the first available weapon
+	for ( slot = 0; slot < MAX_WEAPON_SLOTS; slot++ )
+	{
+		for ( pos = 0; pos < MAX_WEAPON_POSITIONS; pos++ )
+		{
+			WEAPON *wsp = gWR.GetWeaponSlot( slot, pos );
+			if ( wsp && wsp->iId && gWR.HasAmmo(wsp) && wsp != startWeapon )
+			{
+				gpActiveSel = wsp;
+				PlaySound("common/wpn_moveselect.wav", 1);
+				return;
+			}
+		}
 	}
 
 	gpActiveSel = NULL;
@@ -827,36 +858,51 @@ void CHudAmmo::UserCmd_PrevWeapon(void)
 	if ( gHUD.m_fPlayerDead || (gHUD.m_iHideHUDDisplay & (HIDEHUD_WEAPONS | HIDEHUD_ALL)) )
 		return;
 
+	WEAPON *startWeapon = NULL;
 	if ( !gpActiveSel || gpActiveSel == (WEAPON*)1 )
-		gpActiveSel = m_pWeapon;
+		startWeapon = m_pWeapon;
+	else
+		startWeapon = gpActiveSel;
 
-	int pos = MAX_WEAPON_POSITIONS-1;
-	int slot = MAX_WEAPON_SLOTS-1;
-	if ( gpActiveSel )
-	{
-		pos = gpActiveSel->iSlotPos - 1;
-		slot = gpActiveSel->iSlot;
-	}
-	
-	for ( int loop = 0; loop <= 1; loop++ )
+	if ( !startWeapon )
+		return;
+
+	int pos = startWeapon->iSlotPos - 1;
+	int slot = startWeapon->iSlot;
+
+	// Search for previous available weapon
+	for ( int loop = 0; loop < 2; loop++ )
 	{
 		for ( ; slot >= 0; slot-- )
 		{
 			for ( ; pos >= 0; pos-- )
 			{
 				WEAPON *wsp = gWR.GetWeaponSlot( slot, pos );
-
-				if ( wsp && gWR.HasAmmo(wsp) )
+				if ( wsp && wsp->iId && gWR.HasAmmo(wsp) && wsp != startWeapon )
 				{
 					gpActiveSel = wsp;
+					PlaySound("common/wpn_moveselect.wav", 1);
 					return;
 				}
 			}
-
-			pos = MAX_WEAPON_POSITIONS-1;
+			pos = MAX_WEAPON_POSITIONS - 1;
 		}
-		
-		slot = MAX_WEAPON_SLOTS-1;
+		slot = MAX_WEAPON_SLOTS - 1;
+	}
+
+	// If no other weapon found, select the last available weapon
+	for ( slot = MAX_WEAPON_SLOTS - 1; slot >= 0; slot-- )
+	{
+		for ( pos = MAX_WEAPON_POSITIONS - 1; pos >= 0; pos-- )
+		{
+			WEAPON *wsp = gWR.GetWeaponSlot( slot, pos );
+			if ( wsp && wsp->iId && gWR.HasAmmo(wsp) && wsp != startWeapon )
+			{
+				gpActiveSel = wsp;
+				PlaySound("common/wpn_moveselect.wav", 1);
+				return;
+			}
+		}
 	}
 
 	gpActiveSel = NULL;
