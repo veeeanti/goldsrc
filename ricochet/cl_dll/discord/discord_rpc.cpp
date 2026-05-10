@@ -1,17 +1,7 @@
 /***
- *
- *	No copyrights. I wrote this using the Discord Game SDK examples
- *  and documentation as reference, feel free to use it however you like.
- *  The main thing is that with this codebase, only Half-Life is supported.
- *	I'm trying to figure out how to get Opposing Force, Blue Shift and
- *	any other GoldSrc mods to work with Discord RPC, but so far no luck.
- *	I've only tried rewriting necessary code here to support OpFor, it didn't
- *  exactly work but it'll take more time to figure it out.
- *  Blue Shift should be easier since it's basically just Half-Life with
- *  model swaps for stuff like the battery and HEV suit for armor and Barney's
- *  vest and helmet. (And the lack of HEV charger usage...)
- *  In any case, this replaces the "discord_register.h" file from the older
- *  RPC SDK. It was instructed by Jay! on the TWHL wiki to do so.
+ *  Modified from my initial Half-Life implementation to support Ricochet, this
+ *  is rewritten to better fit for Ricochet and it's MP-focused nature, 
+ *  I hope people enjoy having their presence show up in Discord, all 4 of yous!
  * 
  *  veeλnti - 2026 
  * 
@@ -185,13 +175,25 @@ void CDiscordRPC::UpdateInternal()
 
     DiscordRichPresence presence;
     memset(&presence, 0, sizeof(presence));
-    presence.state = m_strCurrentMap.c_str();
-    presence.details = m_strCurrentGameMode.c_str();
-    presence.largeImageKey = "ricochet";
-    presence.startTimestamp = m_iStartTimestamp;
-    presence.partyId = "ricochet";
-    presence.partySize = m_iPlayerCount;
-    presence.partyMax = m_iMaxPlayers;
+
+    if (m_bInMatch)
+    {
+        char szKDA[64];
+        sprintf(szKDA, "%d/%d", m_iPlayerFrags, m_iPlayerDeaths);
+        presence.state = szKDA;
+        presence.details = m_strCurrentMap.c_str();
+        presence.largeImageKey = "ricochet";
+        presence.startTimestamp = m_iStartTimestamp;
+        presence.partyId = "ricochet";
+        presence.partySize = m_iPlayerCount;
+        presence.partyMax = m_iMaxPlayers;
+    }
+    else
+    {
+        presence.state = "In Menu";
+        presence.details = m_strCurrentGameMode.c_str();
+        presence.largeImageKey = "ricochet";
+    }
 
     Discord_UpdatePresence(&presence);
 }
