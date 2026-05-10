@@ -137,7 +137,7 @@ int CHudMessage::YPosition( float y, int height )
 
 void CHudMessage::MessageScanNextChar( void )
 {
-	int srcRed, srcGreen, srcBlue, destRed, destGreen, destBlue;
+	int srcRed, srcGreen, srcBlue, destRed = 0, destGreen = 0, destBlue = 0;
 	int blend;
 
 	srcRed = m_parms.pMessage->r1;
@@ -150,7 +150,6 @@ void CHudMessage::MessageScanNextChar( void )
 	// Fade-in / Fade-out
 	case 0:
 	case 1:
-		destRed = destGreen = destBlue = 0;
 		blend = m_parms.fadeBlend;
 		break;
 
@@ -165,7 +164,6 @@ void CHudMessage::MessageScanNextChar( void )
 		{
 			float deltaTime = m_parms.time - m_parms.charTime;
 
-			destRed = destGreen = destBlue = 0;
 			if ( m_parms.time > m_parms.fadeTime )
 			{
 				blend = m_parms.fadeBlend;

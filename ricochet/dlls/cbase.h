@@ -804,4 +804,12 @@ public:
 	void KeyValue( KeyValueData *pkvd );
 
 	int	 m_iArenaOff;
+	virtual int        Save(CSave& save);
+	virtual int        Restore(CRestore& restore);
+	static    TYPEDESCRIPTION m_SaveData[];
+	
+	string_t m_iszChapter;
+	string_t m_iszArea;
+	string_t m_iszImage;
+
 };

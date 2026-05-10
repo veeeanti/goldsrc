@@ -261,6 +261,12 @@
     <ClCompile Include="..\..\ricochet\cl_dll\view.cpp">
       <Filter>Source Files\ricochet\cl_dll</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ricochet\cl_dll\discord_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ricochet\cl_dll\discord\discord_rpc.cpp">
+      <Filter>Source Files\ricochet\cl_dll</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ricochet\cl_dll\kbutton.h">
@@ -380,5 +386,14 @@
     <ClInclude Include="..\..\ricochet\cl_dll\view.h">
       <Filter>Header Files\ricochet\cl_dll</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ricochet\cl_dll\discord_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ricochet\cl_dll\discord\discord_rpc.h">
+      <Filter>Header Files\ricochet\cl_dll</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\lib\public\discord-rpc.lib" />
   </ItemGroup>
 </Project>

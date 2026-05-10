@@ -25,6 +25,7 @@
 #include "vgui_SchemeManager.h"
 
 #include "interface.h"
+#include "discord_manager.h"
 
 cl_enginefunc_t gEngfuncs;
 CHud gHUD	;
@@ -38,6 +39,7 @@ extern "C"
 #include "hud_servers.h"
 #include "vgui_int.h"
 
+class CSysModule;
 CSysModule *g_hTrackerModule = NULL;
 #ifdef _WIN32
 #endif
@@ -193,6 +195,7 @@ int EXPORT HUD_Init( void )
 	InitInput();
 	gHUD.Init();
 	Scheme_Init();
+	DiscordMan_Startup();
 	return 1;
 }
 
@@ -262,6 +265,9 @@ void EXPORT HUD_Frame( double time )
 	ServersThink( time );
 
 	GetClientVoiceMgr()->Frame(time);
+
+	DiscordMan_Update();
+
 }
 
 /*

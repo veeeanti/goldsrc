@@ -61,6 +61,8 @@
     <ClCompile Include="..\..\ricochet\cl_dll\train.cpp" />
     <ClCompile Include="..\..\ricochet\cl_dll\tri.cpp" />
     <ClCompile Include="..\..\ricochet\cl_dll\util.cpp" />
+    <ClCompile Include="..\..\ricochet\cl_dll\discord\discord_rpc.cpp" />
+    <ClCompile Include="..\..\ricochet\cl_dll\discord_manager.cpp" />
     <ClCompile Include="..\..\ricochet\cl_dll\vgui_ConsolePanel.cpp" />
     <ClCompile Include="..\..\ricochet\cl_dll\vgui_ControlConfigPanel.cpp" />
     <ClCompile Include="..\..\ricochet\cl_dll\vgui_CustomObjects.cpp" />
@@ -112,12 +114,17 @@
     <ClInclude Include="..\..\ricochet\cl_dll\vgui_TeamFortressViewport.h" />
     <ClInclude Include="..\..\ricochet\cl_dll\view.h" />
     <ClInclude Include="..\..\ricochet\cl_dll\wrect.h" />
+    <ClInclude Include="..\..\ricochet\cl_dll\discord_manager.h" />
     <ClInclude Include="..\..\ricochet\pm_shared\pm_debug.h" />
     <ClInclude Include="..\..\ricochet\pm_shared\pm_defs.h" />
     <ClInclude Include="..\..\ricochet\pm_shared\pm_info.h" />
     <ClInclude Include="..\..\ricochet\pm_shared\pm_materials.h" />
     <ClInclude Include="..\..\ricochet\pm_shared\pm_movevars.h" />
     <ClInclude Include="..\..\ricochet\pm_shared\pm_shared.h" />
+    <ClInclude Include="..\..\ricochet\cl_dll\discord\discord_rpc.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\lib\public\discord-rpc.lib" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EA7DE935-F997-4EA8-9135-E2FE5E5D2C1B}</ProjectGuid>

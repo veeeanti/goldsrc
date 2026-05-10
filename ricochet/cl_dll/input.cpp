@@ -32,6 +32,11 @@ extern "C"
 #include "vgui_TeamFortressViewport.h"
 #include "vgui_discobjects.h"
 
+#include "discord_manager.h"
+cvar_t *rpc_chapter;
+cvar_t *rpc_area;
+cvar_t *rpc_image;
+
 // Observer Movement modes (stored in pev->iuser1, so the physics code can get at them)
 #define OBS_CHASE_LOCKED		1
 #define OBS_CHASE_FREE			2
@@ -932,6 +937,11 @@ void InitInput (void)
 	gEngfuncs.pfnAddCommand ("-graph", IN_GraphUp);
 	gEngfuncs.pfnAddCommand ("+break",IN_BreakDown);
 	gEngfuncs.pfnAddCommand ("-break",IN_BreakUp);
+	gEngfuncs.Con_Printf("Initializing Discord RPC CVars\n");
+	rpc_chapter = gEngfuncs.pfnRegisterVariable("rpc_chapter", "", FCVAR_CLIENTDLL);
+	rpc_area = gEngfuncs.pfnRegisterVariable("rpc_area", "", FCVAR_CLIENTDLL);
+	rpc_image = gEngfuncs.pfnRegisterVariable("rpc_image", "", FCVAR_CLIENTDLL);
+
 
 	lookstrafe			= gEngfuncs.pfnRegisterVariable ( "lookstrafe", "0", FCVAR_ARCHIVE );
 	lookspring			= gEngfuncs.pfnRegisterVariable ( "lookspring", "0", FCVAR_ARCHIVE );
@@ -961,6 +971,10 @@ void InitInput (void)
 	KB_Init();
 	// Initialize view system
 	V_Init();
+	
+	gEngfuncs.Con_Printf("Starting up Discord RPC\n");
+	DiscordMan_Startup();
+
 }
 
 /*
