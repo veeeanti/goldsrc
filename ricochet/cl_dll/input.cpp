@@ -28,6 +28,7 @@ extern "C"
 #include "view.h"
 #include <string.h>
 #include <ctype.h>
+#include "../../public/interface.h"
 
 #include "vgui_TeamFortressViewport.h"
 #include "vgui_discobjects.h"
@@ -36,6 +37,9 @@ extern "C"
 cvar_t *rpc_chapter;
 cvar_t *rpc_area;
 cvar_t *rpc_image;
+
+// Forward declaration of CSysModule
+class CSysModule;
 
 // Observer Movement modes (stored in pev->iuser1, so the physics code can get at them)
 #define OBS_CHASE_LOCKED		1
