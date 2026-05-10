@@ -54,11 +54,11 @@ void DiscordMan_Startup(void) {
     }
 }
 
-void DiscordMan_Update(void) {
+void DiscordMan_Update(int intermission) {
     if (g_pDiscordRPC)
     {
         g_pDiscordRPC->FrameUpdate(0);
-        g_pDiscordRPC->UpdateRicochetStats(g_PlayerExtraInfo[0].frags, g_PlayerExtraInfo[0].deaths, g_iUser1 == 2);
+        g_pDiscordRPC->UpdateRicochetStats(g_PlayerExtraInfo[0].frags, g_PlayerExtraInfo[0].deaths, !intermission);
         g_pDiscordRPC->UpdateInternal();
     }
 }

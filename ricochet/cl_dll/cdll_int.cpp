@@ -211,9 +211,10 @@ redraw the HUD.
 
 int EXPORT HUD_Redraw( float time, int intermission )
 {
-	gHUD.Redraw( time, intermission );
+    gHUD.Redraw( time, intermission );
+    DiscordMan_Update(intermission);
 
-	return 1;
+    return 1;
 }
 
 

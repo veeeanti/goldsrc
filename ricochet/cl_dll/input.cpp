@@ -976,8 +976,8 @@ void InitInput (void)
 	// Initialize view system
 	V_Init();
 	
-	gEngfuncs.Con_Printf("Starting up Discord RPC\n");
-	DiscordMan_Startup();
+    gEngfuncs.Con_Printf("Starting up Discord RPC\n");
+    // DiscordMan_Startup();  // Called from HUD_Init instead
 
 }
 
